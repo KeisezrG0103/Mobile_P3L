@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class HistoryUI extends StatelessWidget {
@@ -6,8 +5,8 @@ class HistoryUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Text(
+    return const Scaffold(
+      body: Text(
         'History UI',
         style: TextStyle(
           fontSize: 30,

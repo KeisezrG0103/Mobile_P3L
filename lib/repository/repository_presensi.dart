@@ -7,4 +7,8 @@ class RepositoryPresensi {
   Future<List<Presensi>> getAllPresensi() async {
     return presensiProvider.getPresensi();
   }
+
+  Future<List<Presensi>> getPresensiByDate(String date) async {
+    return presensiProvider.getPresensiByDate(date);
+  }
 }
