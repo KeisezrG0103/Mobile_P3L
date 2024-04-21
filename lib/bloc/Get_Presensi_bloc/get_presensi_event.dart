@@ -11,3 +11,12 @@ class GetAllPresensi extends GetPresensiEvent {
   @override
   List<Object> get props => [];
 }
+
+class ChangeToTidakHadir extends GetPresensiEvent {
+  final int Id;
+
+  ChangeToTidakHadir(this.Id);
+
+  @override
+  List<Object> get props => [Id];
+}

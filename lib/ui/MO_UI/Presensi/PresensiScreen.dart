@@ -20,7 +20,7 @@ class PresensiScreen extends StatelessWidget {
           } else if (state.status.isSuccess) {
             final presensi = state.presensi;
             print(presensi);
-            return PresensiSuccess(presensi: presensi!);
+            return PresensiSuccess(presensi: presensi);
           } else if (state.status.isError) {
             return Center(
               child: Text('error'),

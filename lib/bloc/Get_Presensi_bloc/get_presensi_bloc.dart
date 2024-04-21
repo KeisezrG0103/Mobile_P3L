@@ -27,3 +27,27 @@ class GetPresensiBloc extends Bloc<GetPresensiEvent, GetPresensiState> {
     }
   }
 }
+
+class ChangeToTidakHadirBloc
+    extends Bloc<ChangeToTidakHadir, ChangeToTidakHadirState> {
+  ChangeToTidakHadirBloc({
+    required this.presensiRepository,
+  }) : super(const ChangeToTidakHadirState(Id: 0)) {
+    on<ChangeToTidakHadir>(_mapChangeToTidakHadirToState);
+  }
+
+  final RepositoryPresensi presensiRepository;
+
+  void _mapChangeToTidakHadirToState(
+    ChangeToTidakHadir event,
+    Emitter<ChangeToTidakHadirState> emit,
+  ) async {
+    emit(state.copyWith(status: PresensiStatus.loading));
+    try {
+      final presensi = await presensiRepository.changeToTidakHadir(event.Id);
+      emit(state.copyWith(status: PresensiStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: PresensiStatus.error));
+    }
+  }
+}

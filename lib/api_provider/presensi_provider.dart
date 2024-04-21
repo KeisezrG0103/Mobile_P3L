@@ -35,30 +35,24 @@ class PresensiProvider {
     }
   }
 
-  Future<List<Presensi>> getPresensiByDate(String date) async {
+  Future<Presensi> changeToTidakHadir(int Id) {
     final token = storage.getItem('token');
 
-    try {
-      final response = await client.get(
-        Uri.parse('${URL.PRESENSI}/$date'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
+    return client.put(
+      Uri.parse('${URL.PRESENSI}/$Id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((response) {
       if (response.statusCode != 200) {
         print('Response: ${response.body}');
-        return <Presensi>[];
+        return Presensi.empty();
       }
-      // print('Response: ${response.body}');
       final Map<String, dynamic> responseData = json.decode(response.body);
-      final List<dynamic> presensiList = responseData['data'];
-      print(presensiList.map((e) => Presensi.fromJson(e)).toList());
-
-      return presensiList.map((e) => Presensi.fromJson(e)).toList();
-    } catch (e) {
-      return <Presensi>[];
-    }
+      return Presensi.fromJson(responseData);
+    }).catchError((e) {
+      return Presensi.empty();
+    });
   }
 }

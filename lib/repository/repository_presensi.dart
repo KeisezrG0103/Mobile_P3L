@@ -8,7 +8,7 @@ class RepositoryPresensi {
     return presensiProvider.getPresensi();
   }
 
-  Future<List<Presensi>> getPresensiByDate(String date) async {
-    return presensiProvider.getPresensiByDate(date);
+  Future<Presensi> changeToTidakHadir(int Id) async {
+    return presensiProvider.changeToTidakHadir(Id);
   }
 }

@@ -31,3 +31,26 @@ class GetPresensiState extends Equatable {
     );
   }
 }
+
+class ChangeToTidakHadirState extends Equatable {
+  final PresensiStatus status;
+  final int Id;
+
+  const ChangeToTidakHadirState({
+    required this.Id,
+    this.status = PresensiStatus.initial,
+  });
+
+  @override
+  List<Object> get props => [status, Id];
+
+  ChangeToTidakHadirState copyWith({
+    PresensiStatus? status,
+    int? Id,
+  }) {
+    return ChangeToTidakHadirState(
+      status: status ?? this.status,
+      Id: Id ?? this.Id,
+    );
+  }
+}

@@ -18,6 +18,11 @@ class IndexPresensi extends StatelessWidget {
             presensiRepository: RepositoryPresensi(),
           )..add(GetAllPresensi()),
         ),
+        BlocProvider<ChangeToTidakHadirBloc>(
+          create: (context) => ChangeToTidakHadirBloc(
+            presensiRepository: RepositoryPresensi(),
+          ),
+        ),
       ],
       child: PresensiScreen(),
     ));
