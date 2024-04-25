@@ -4,6 +4,7 @@ import 'package:untitled/constant/Router.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/bloc/Home_bloc/home_page_bloc.dart'; // Import your HomePageBloc
+import 'package:untitled/constant/color.dart';
 
 import 'AppState.dart';
 
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: COLOR.primaryColor,
+      ),
       onGenerateRoute: AppRouter().generateRoute,
       initialRoute: '/IntroductionScreen',
       navigatorKey: NavigationService.instance.navigatorKey,
