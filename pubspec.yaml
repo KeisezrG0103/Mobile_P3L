@@ -46,6 +46,14 @@ dependencies:
   equatable: ^2.0.5
   flutter_slidable: ^3.1.0
   intl: ^0.19.0
+  flutter_native_splash: ^2.3.7
+
+flutter_native_splash:
+  color: "#cc5803"
+  image: assets/logo.png
+  android_12:
+    color: "#cc5803"
+    image: assets/logo.png
 
 dev_dependencies:
   flutter_test:

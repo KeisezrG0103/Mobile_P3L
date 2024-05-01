@@ -5,17 +5,21 @@ import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/bloc/Home_bloc/home_page_bloc.dart'; // Import your HomePageBloc
 import 'package:untitled/constant/color.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'AppState.dart';
 
 late final ValueNotifier<String> token;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final LocalStorage storage = LocalStorage('localstorage_app');
   await storage.ready;
   token = ValueNotifier<String>(storage.getItem('token') as String? ?? '');
   runApp(const MyApp());
+
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
