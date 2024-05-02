@@ -143,13 +143,18 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Forgot Your Password?',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/forgot_password');
+                      },
+                      child: Text(
+                        'Forgot Your Password?',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13,
+                        ),
+                      ),
                     ),
-                  ),
                   GestureDetector(
                     onTap: () {
                       setState(() {
