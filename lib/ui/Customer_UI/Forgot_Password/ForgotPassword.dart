@@ -68,7 +68,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   children: [
                     TextSpan(text: 'Your '),
                     TextSpan(
-                      text: 'New Password',
+                      text: 'New Password.',
                       style: TextStyle(
                         color: COLOR.primaryColor,
                       ),
@@ -92,7 +92,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle button press
+                     Navigator.pushNamedAndRemoveUntil(context,
+                                      '/verify-otp', (route) => false);
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(15),

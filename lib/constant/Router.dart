@@ -6,6 +6,8 @@ import 'package:untitled/ui/MO_UI/Index_MO.dart';
 import 'package:untitled/ui/RegisterScreen.dart';
 import 'package:untitled/ui/IntroductionScreen.dart';
 import 'package:untitled/ui/Customer_UI/Forgot_Password/ForgotPassword.dart';
+import 'package:untitled/ui/Customer_UI/Forgot_Password/VerifyOTP.dart';
+import 'package:untitled/ui/Customer_UI/Forgot_Password/ChangePassword.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -20,8 +22,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case '/register':
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
-      case '/forgot_password': // Rute untuk halaman Forgot Password
+      case '/forgot_password': 
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+      case '/verify-otp': 
+        return MaterialPageRoute(builder: (_) => const VerifyOTP());
+      case '/change-password': 
+        return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());  
       case '/MO/':
         return MaterialPageRoute(builder: (_) => const Index_MO());
       default:
