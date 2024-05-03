@@ -25,9 +25,15 @@ class AppRouter {
       case '/forgot_password': 
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
       case '/verify-otp': 
-        return MaterialPageRoute(builder: (_) => const VerifyOTP());
+       final args = settings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (_) => VerifyOTPScreen(email: args['email']),
+          );
       case '/change-password': 
-        return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());  
+       final args = settings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (_) => ChangePasswordScreen(email: args['email']),
+          );
       case '/MO/':
         return MaterialPageRoute(builder: (_) => const Index_MO());
       default:
