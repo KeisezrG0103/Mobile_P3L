@@ -23,6 +23,12 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isKaryawan = false;
 
   @override
+  void initState() {
+    super.initState();
+    isVisible = false;
+  }
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -115,9 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               const SizedBox(height: 10),
-              TextFormField(
+             TextFormField(
                 controller: _passwordController,
-                obscureText: isVisible, // Toggle visibility based on the state
+                obscureText: !isVisible, 
                 decoration: InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(
@@ -129,7 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.grey,
                     ),
                     onPressed: () {
-                      // Toggle visibility when the icon button is pressed
                       setState(() {
                         isVisible = !isVisible;
                       });

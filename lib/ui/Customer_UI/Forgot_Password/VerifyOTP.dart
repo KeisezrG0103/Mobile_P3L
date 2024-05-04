@@ -141,12 +141,12 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                                 backgroundColor: Colors.green,
                               ),
                             );
-
-                             Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ChangePasswordScreen(email: widget.email),
-                              ),
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/change-password', 
+                              (Route<dynamic> route) => false,
+                              arguments: widget.email,
                             );
+                                                        
                           } else {
                            
                             print(response.message);

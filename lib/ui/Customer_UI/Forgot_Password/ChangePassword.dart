@@ -179,11 +179,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 ),
                               );
 
-                               Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
-                                ),
-                              );
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/login', 
+                                  (Route<dynamic> route) => false,
+                                );
                             } else {
                              
                               print(response.message);

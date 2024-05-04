@@ -131,11 +131,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 duration: Duration(seconds: 2),
                               ),
                             );
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => VerifyOTPScreen(email: _emailController.text),
-                              ),
-                            );
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/verify-otp', 
+                                (Route<dynamic> route) => false,
+                                arguments: _emailController.text,
+                              );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
