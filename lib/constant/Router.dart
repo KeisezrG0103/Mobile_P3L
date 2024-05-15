@@ -22,7 +22,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case '/register':
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
-      case '/forgot_password': 
+      case '/forgot_password':
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
       case '/verify-otp':
         final String email = settings.arguments as String;
@@ -36,6 +36,8 @@ class AppRouter {
         );
       case '/MO/':
         return MaterialPageRoute(builder: (_) => const Index_MO());
+      case '/Home':
+        return MaterialPageRoute(builder: (_) => const IndexCustomer());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

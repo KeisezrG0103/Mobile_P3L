@@ -121,9 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               const SizedBox(height: 10),
-             TextFormField(
+              TextFormField(
                 controller: _passwordController,
-                obscureText: !isVisible, 
+                obscureText: !isVisible,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(
@@ -149,17 +149,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/forgot_password');
-                      },
-                      child: Text(
-                        'Forgot Your Password?',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13,
-                        ),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/forgot_password');
+                    },
+                    child: Text(
+                      'Forgot Your Password?',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
                       ),
                     ),
+                  ),
                   GestureDetector(
                     onTap: () {
                       setState(() {
@@ -243,6 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         );
                         storage.setItem('token', token);
+                        storage.setItem('namaUser', event.nama);
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             '/', (Route<dynamic> route) => false);
                       }
