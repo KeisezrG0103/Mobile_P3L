@@ -98,7 +98,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             height: 50,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: COLOR.primaryColor,
+                                backgroundColor: COLOR.primaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -125,7 +125,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             height: 50,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
+                                backgroundColor: Colors.white,
                                 side: BorderSide(
                                     color: COLOR.primaryColor, width: 2),
                                 //rounded border

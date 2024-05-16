@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/bloc/bloc/kategori_bloc.dart';
+import 'package:untitled/bloc/bloc_produk/blok_produk_bloc.dart';
 import 'package:untitled/constant/color.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:untitled/repository/repository_katalog.dart';
+import 'package:untitled/ui/Customer_UI/Home/ListProduk.dart';
 
 class HomeUI extends StatefulWidget {
   const HomeUI({Key? key}) : super(key: key);
@@ -35,143 +38,210 @@ class _HomeUIState extends State<HomeUI> {
     final double horizontalPadding = screenWidth * 0.05;
     final double topPadding = screenHeight * 0.02;
 
-    return BlocProvider(
-      create: (context) => KategoriBloc(),
-      child: BlocBuilder<KategoriBloc, KategoriState>(
-        builder: (context, state) {
-          return SafeArea(
-            child: Scaffold(
-              body: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                      horizontalPadding,
-                      topPadding,
-                      horizontalPadding,
-                      0,
-                    ),
-                    color: Colors.white,
-                    child: Row(
-                      children: [
-                        Expanded(
+    return RepositoryProvider(
+      create: (context) => RepositoryKatalog(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => KategoriBloc(),
+          ),
+          BlocProvider(
+            create: (context) => BlokProdukBloc(),
+          ),
+        ],
+        child: BlocBuilder<KategoriBloc, KategoriState>(
+          builder: (context, state) {
+            return SafeArea(
+              child: Scaffold(
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                          horizontalPadding,
+                          topPadding,
+                          horizontalPadding,
+                          0,
+                        ),
+                        color: Colors.white,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                namaUser.isNotEmpty
+                                    ? 'Good Day! //'
+                                    : 'Hi there',
+                                style: TextStyle(
+                                  color: COLOR.primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: horizontalPadding,
+                        ),
+                        child: const Align(
+                          alignment: Alignment.centerLeft,
                           child: Text(
-                            namaUser.isNotEmpty
-                                ? 'Good Day! $namaUser'
-                                : 'Hi there',
+                            "Embrace our tasty treats.",
                             style: TextStyle(
-                              color: COLOR.primaryColor,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              fontSize: 25,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: horizontalPadding,
-                    ),
-                    child: const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Embrace our tasty treats.",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                          horizontalPadding,
+                          topPadding,
+                          horizontalPadding,
+                          0,
                         ),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Our Category",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: COLOR.primaryColor,
+                                ),
+                              ),
+                            ),
+                            Kategori(
+                                topPadding, screenWidth, horizontalPadding),
+                          ],
+                        ),
+                      ),
+                      BlocListener<KategoriBloc, KategoriState>(
+                        listener: (context, state) {
+                          // how to get the value of state.kategori?
+                          if (state.kategori == KategoriStatus.cake) {
+                            context
+                                .read<BlokProdukBloc>()
+                                .add(GetProduk('Cake'));
+                          } else if (state.kategori == KategoriStatus.drink) {
+                            context
+                                .read<BlokProdukBloc>()
+                                .add(GetProduk('Minuman'));
+                          } else if (state.kategori == KategoriStatus.penitip) {
+                            context
+                                .read<BlokProdukBloc>()
+                                .add(GetProduk('penitip'));
+                          } else if (state.kategori == KategoriStatus.bread) {
+                            context
+                                .read<BlokProdukBloc>()
+                                .add(GetProduk('Roti'));
+                          }
+                        },
+                        child: BlocConsumer<BlokProdukBloc, BlokProdukState>(
+                          listener: (context, state) {
+                            if (state.status == ProdukStatus.failure) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Failed to fetch data'),
+                                ),
+                              );
+                            }
+
+                            if (state.status == ProdukStatus.success) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Data fetched successfully'),
+                                ),
+                              );
+                            }
+
+                            if (state.status == ProdukStatus.loading) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Loading data...'),
+                                ),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            return Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(
+                                  horizontalPadding,
+                                  20.0,
+                                  20.0,
+                                  0,
+                                ),
+                                child: ListProduk(
+                                  listProduk: state.produk,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Container Kategori(
+      double topPadding, double screenWidth, double horizontalPadding) {
+    return Container(
+      margin: EdgeInsets.only(top: topPadding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          for (int i = 0; i < 4; i++)
+            BlocBuilder<KategoriBloc, KategoriState>(
+              builder: (context, state) {
+                return GestureDetector(
+                  onTap: () {
+                    context
+                        .read<KategoriBloc>()
+                        .add(changeKategori(KategoriStatus.values[i]));
+                  },
+                  child: Container(
+                    width: (screenWidth - 2 * horizontalPadding - 30) / 4,
+                    height: (screenWidth - 2 * horizontalPadding - 30) / 4,
+                    decoration: BoxDecoration(
+                      color: state.kategori == KategoriStatus.values[i]
+                          ? COLOR.secondaryColor
+                          : Colors.grey[300],
+                      shape: BoxShape.circle,
+                      border: state.kategori == KategoriStatus.values[i]
+                          ? Border.all(
+                              color: COLOR.primaryColor,
+                              width: 5,
+                            )
+                          : null,
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/image${i + 1}.png',
+                        width: (screenWidth - 1 * horizontalPadding - 200) / 4,
+                        height: (screenWidth - 1 * horizontalPadding - 200) / 4,
+                        fit: BoxFit.cover, // sesuaikan dengan kebutuhan Anda
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                      horizontalPadding,
-                      topPadding,
-                      horizontalPadding,
-                      0,
-                    ),
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Our Category",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: COLOR.primaryColor,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: topPadding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              for (int i = 0; i < 4; i++)
-                                BlocBuilder<KategoriBloc, KategoriState>(
-                                  builder: (context, state) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        context.read<KategoriBloc>().add(
-                                            changeKategori(
-                                                KategoriStatus.values[i]));
-                                        print(KategoriStatus.values[i]);
-                                      },
-                                      child: Container(
-                                        width: (screenWidth -
-                                                2 * horizontalPadding -
-                                                30) /
-                                            4,
-                                        height: (screenWidth -
-                                                2 * horizontalPadding -
-                                                30) /
-                                            4,
-                                        decoration: BoxDecoration(
-                                          color: state.kategori ==
-                                                  KategoriStatus.values[i]
-                                              ? COLOR.secondaryColor
-                                              : Colors.grey[300],
-                                          shape: BoxShape.circle,
-                                          border: state.kategori ==
-                                                  KategoriStatus.values[i]
-                                              ? Border.all(
-                                                  color: COLOR.primaryColor,
-                                                  width: 5,
-                                                )
-                                              : null,
-                                        ),
-                                        child: Center(
-                                          child: Image.asset(
-                                            'assets/image${i + 1}.png',
-                                            width: (screenWidth -
-                                                    1 * horizontalPadding -
-                                                    200) /
-                                                4,
-                                            height: (screenWidth -
-                                                    1 * horizontalPadding -
-                                                    200) /
-                                                4,
-                                            fit: BoxFit
-                                                .cover, // sesuaikan dengan kebutuhan Anda
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
+        ],
       ),
     );
   }

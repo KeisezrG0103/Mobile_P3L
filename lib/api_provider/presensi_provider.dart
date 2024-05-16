@@ -27,7 +27,6 @@ class PresensiProvider {
       // print('Response: ${response.body}');
       final Map<String, dynamic> responseData = json.decode(response.body);
       final List<dynamic> presensiList = responseData['data'];
-      print(presensiList.map((e) => Presensi.fromJson(e)).toList());
 
       return presensiList.map((e) => Presensi.fromJson(e)).toList();
     } catch (e) {

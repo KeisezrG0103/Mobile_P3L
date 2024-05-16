@@ -135,7 +135,7 @@ class _FirstScreenState extends State<IntroductionScreen> {
                               height: 50,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: COLOR.primaryColor,
+                                  backgroundColor: COLOR.primaryColor,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
