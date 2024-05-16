@@ -46,7 +46,7 @@ class _HomeUIState extends State<HomeUI> {
             create: (context) => KategoriBloc(),
           ),
           BlocProvider(
-            create: (context) => BlokProdukBloc(),
+            create: (context) => BlokProdukBloc()..add(GetProduk('Cake')),
           ),
         ],
         child: BlocBuilder<KategoriBloc, KategoriState>(
@@ -124,7 +124,6 @@ class _HomeUIState extends State<HomeUI> {
                       ),
                       BlocListener<KategoriBloc, KategoriState>(
                         listener: (context, state) {
-                          // how to get the value of state.kategori?
                           if (state.kategori == KategoriStatus.cake) {
                             context
                                 .read<BlokProdukBloc>()
@@ -167,7 +166,7 @@ class _HomeUIState extends State<HomeUI> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Loading data...'),
-                                  backgroundColor: Colors.grey,
+                                  backgroundColor: Colors.blue,
                                 ),
                               );
                             }
@@ -211,6 +210,7 @@ class _HomeUIState extends State<HomeUI> {
           for (int i = 0; i < 4; i++)
             BlocBuilder<KategoriBloc, KategoriState>(
               builder: (context, state) {
+                print(state.kategori);
                 return GestureDetector(
                   onTap: () {
                     context
@@ -237,7 +237,7 @@ class _HomeUIState extends State<HomeUI> {
                         'assets/image${i + 1}.png',
                         width: (screenWidth - 1 * horizontalPadding - 200) / 4,
                         height: (screenWidth - 1 * horizontalPadding - 200) / 4,
-                        fit: BoxFit.cover, // sesuaikan dengan kebutuhan Anda
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
