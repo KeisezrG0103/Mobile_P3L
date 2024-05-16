@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/bloc/bloc/kategori_bloc.dart';
 import 'package:untitled/bloc/bloc_produk/blok_produk_bloc.dart';
-import 'package:untitled/constant/color.dart';
+import 'package:untitled/constant/Color.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:untitled/repository/repository_katalog.dart';
 import 'package:untitled/ui/Customer_UI/Home/ListProduk.dart';
@@ -157,14 +157,17 @@ class _HomeUIState extends State<HomeUI> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Data fetched successfully'),
+                                  backgroundColor: Colors.green,
                                 ),
                               );
                             }
 
                             if (state.status == ProdukStatus.loading) {
+                              // make a circular progress indicator
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Loading data...'),
+                                  backgroundColor: Colors.grey,
                                 ),
                               );
                             }
