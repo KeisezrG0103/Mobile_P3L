@@ -6,6 +6,7 @@ import 'package:untitled/constant/Color.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:untitled/repository/repository_katalog.dart';
 import 'package:untitled/ui/Customer_UI/Home/ListProduk.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeUI extends StatefulWidget {
   const HomeUI({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class HomeUI extends StatefulWidget {
 class _HomeUIState extends State<HomeUI> {
   final LocalStorage storage = LocalStorage('localstorage_app');
   String namaUser = '';
+  int _currentImageIndex = 0;
 
   @override
   void initState() {
@@ -37,6 +39,14 @@ class _HomeUIState extends State<HomeUI> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double horizontalPadding = screenWidth * 0.05;
     final double topPadding = screenHeight * 0.02;
+
+    final List<String> imgList = [
+      'assets/carousel-1.png',
+      'assets/carousel-2.png',
+      'assets/carousel-3.png',
+      'assets/carousel-4.png',
+      'assets/carousel-5.png',
+    ];
 
     return RepositoryProvider(
       create: (context) => RepositoryKatalog(),
@@ -98,6 +108,13 @@ class _HomeUIState extends State<HomeUI> {
                         ),
                       ),
                       Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: horizontalPadding,
+                          vertical: topPadding,
+                        ),
+                        child: buildCarousel(imgList),
+                      ),
+                      Container(
                         padding: EdgeInsets.fromLTRB(
                           horizontalPadding,
                           topPadding,
@@ -118,7 +135,10 @@ class _HomeUIState extends State<HomeUI> {
                               ),
                             ),
                             Kategori(
-                                topPadding, screenWidth, horizontalPadding),
+                              topPadding, 
+                              screenWidth, 
+                              horizontalPadding,
+                            ),
                           ],
                         ),
                       ),
@@ -162,7 +182,6 @@ class _HomeUIState extends State<HomeUI> {
                             }
 
                             if (state.status == ProdukStatus.loading) {
-                              // make a circular progress indicator
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Loading data...'),
@@ -200,6 +219,58 @@ class _HomeUIState extends State<HomeUI> {
     );
   }
 
+  Widget buildCarousel(List<String> imgList) {
+    return Column(
+      children: [
+        CarouselSlider(
+          options: CarouselOptions(
+            height: 200.0,
+            autoPlay: true,
+            enlargeCenterPage: true,
+            aspectRatio: 16 / 9,
+            autoPlayCurve: Curves.fastOutSlowIn,
+            enableInfiniteScroll: true,
+            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            viewportFraction: 0.8,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _currentImageIndex = index;
+              });
+            },
+          ),
+          items: imgList.map((item) => ClipRRect(
+            borderRadius: BorderRadius.circular(24.0), 
+            child: Container(
+              child: Image.asset(item, fit: BoxFit.cover, width: 1000.00),
+            ),
+          )).toList(),
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: imgList.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  _currentImageIndex = entry.key;
+                });
+              },
+              child: Container(
+                width: 8.0,
+                height: 8.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentImageIndex == entry.key ? COLOR.primaryColor : Colors.grey,
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
   Container Kategori(
       double topPadding, double screenWidth, double horizontalPadding) {
     return Container(
@@ -210,7 +281,6 @@ class _HomeUIState extends State<HomeUI> {
           for (int i = 0; i < 4; i++)
             BlocBuilder<KategoriBloc, KategoriState>(
               builder: (context, state) {
-                print(state.kategori);
                 return GestureDetector(
                   onTap: () {
                     context
