@@ -32,9 +32,13 @@ class Index_Laporan_Bahan_Baku extends StatelessWidget {
             color: Colors.white,
           ),
           actions: [
-            IconButton(
-              icon: Icon(Icons.download),
-              onPressed: () => _downloadPdf(context),
+            BlocBuilder<LaporanBlocBloc, LaporanBahanBakuBlocState>(
+              builder: (context, state) {
+                return IconButton(
+                  icon: Icon(Icons.download),
+                  onPressed: () => _downloadPdf(context, state.laporan.data),
+                );
+              },
             ),
           ],
         ),
@@ -78,30 +82,28 @@ class Index_Laporan_Bahan_Baku extends StatelessWidget {
     );
   }
 
-  Future<void> _downloadPdf(BuildContext context) async {
+  Future<void> _downloadPdf(
+      BuildContext context, List<ModelBahanBaku> data) async {
     final pdf = pw.Document();
-    final List<ModelBahanBaku> data =
-        BlocProvider.of<LaporanBlocBloc>(context).state.laporan.data;
-
     pdf.addPage(
-      pw.MultiPage(
-        build: (context) => [
-          pw.Table.fromTextArray(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Table.fromTextArray(
+            context: context,
             data: <List<String>>[
               <String>['ID', 'Nama', 'Qty', 'Satuan'],
               ...data.map(
                   (e) => [e.id.toString(), e.nama, e.qty.toString(), e.satuan]),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
 
-    final String dir = (await getApplicationDocumentsDirectory()).path;
-    final String path = '$dir/laporan_stok_bahan_baku.pdf';
-    final File file = File(path);
+    final output = await getTemporaryDirectory();
+    final file = File('${output.path}/Laporan-stok-bahanBaku.pdf');
     await file.writeAsBytes(await pdf.save());
 
-    OpenFile.open(path);
+    OpenFile.open(file.path);
   }
 }
