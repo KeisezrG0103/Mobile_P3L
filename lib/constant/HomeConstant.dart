@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/ui/Customer_UI/Home/HomeUI.dart';
 import 'package:untitled/ui/MO_UI/Presensi/Index_Presensi.dart';
+import 'package:untitled/ui/MO_UI/Laporan/Laporan.dart';
 
 List<BottomNavigationBarItem> bottomNavigationBarItems =
     const <BottomNavigationBarItem>[
@@ -19,7 +20,7 @@ List<BottomNavigationBarItem> bottomNavigationBarItems =
 ];
 
 const List<Widget> bottomNavigationBarPages = [
-  Text('Laporan'),
+  LaporanUI(),
   HomeUI(),
   IndexPresensi(),
 ];

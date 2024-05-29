@@ -135,8 +135,8 @@ class _HomeUIState extends State<HomeUI> {
                               ),
                             ),
                             Kategori(
-                              topPadding, 
-                              screenWidth, 
+                              topPadding,
+                              screenWidth,
                               horizontalPadding,
                             ),
                           ],
@@ -238,12 +238,15 @@ class _HomeUIState extends State<HomeUI> {
               });
             },
           ),
-          items: imgList.map((item) => ClipRRect(
-            borderRadius: BorderRadius.circular(24.0), 
-            child: Container(
-              child: Image.asset(item, fit: BoxFit.cover, width: 1000.00),
-            ),
-          )).toList(),
+          items: imgList
+              .map((item) => ClipRRect(
+                    borderRadius: BorderRadius.circular(24.0),
+                    child: Container(
+                      child:
+                          Image.asset(item, fit: BoxFit.cover, width: 1000.00),
+                    ),
+                  ))
+              .toList(),
         ),
         SizedBox(height: 10),
         Row(
@@ -261,7 +264,9 @@ class _HomeUIState extends State<HomeUI> {
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _currentImageIndex == entry.key ? COLOR.primaryColor : Colors.grey,
+                  color: _currentImageIndex == entry.key
+                      ? COLOR.primaryColor
+                      : Colors.grey,
                 ),
               ),
             );
