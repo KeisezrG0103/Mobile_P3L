@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/models/Model_History_Saldo.dart';
 import 'package:untitled/ui/Customer_UI/IndexCustomer.dart';
 import 'package:untitled/ui/FirstScreen.dart';
 import 'package:untitled/ui/LoginScreen.dart';
@@ -8,6 +9,8 @@ import 'package:untitled/ui/IntroductionScreen.dart';
 import 'package:untitled/ui/Customer_UI/Forgot_Password/ForgotPassword.dart';
 import 'package:untitled/ui/Customer_UI/Forgot_Password/VerifyOTP.dart';
 import 'package:untitled/ui/Customer_UI/Forgot_Password/ChangePassword.dart';
+import 'package:untitled/ui/Customer_UI/Profile/RequestSaldoUI.dart';
+import 'package:untitled/ui/Customer_UI/Profile/HistorySaldoUI.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -33,6 +36,16 @@ class AppRouter {
         final String email = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => ChangePasswordScreen(email: email),
+        );
+      case '/request_saldo':
+        final String email = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => RequestSaldoUI(email: email),
+        );
+        case '/history_saldo':
+        final String email = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => HistoryPenarikanSaldoUI(email: email),
         );
       case '/MO/':
         return MaterialPageRoute(builder: (_) => const Index_MO());

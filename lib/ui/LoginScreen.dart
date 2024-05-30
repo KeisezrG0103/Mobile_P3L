@@ -223,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       return;
                     }
 
-                    final email = _emailController.text;
+                    final String email = _emailController.text;
                     final password = _passwordController.text;
                     Auth_bloc.loginCustomerFn(email, password);
                     Auth_bloc.loginCustomer.listen((event) {
@@ -244,6 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                         storage.setItem('token', token);
                         storage.setItem('namaUser', event.nama);
+                        storage.setItem('emailUser', event.email);
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             '/', (Route<dynamic> route) => false);
                       }
