@@ -12,4 +12,5 @@ class URL {
       "$BASE_URL/api/getProdukByRequestandKuota";
   static const String LAPORAN_STOK_BAHAN_BAKU =
       "$BASE_URL/api/laporan_bahan_baku";
+  static const String LAPORAN_KEUANGAN = "$BASE_URL/api/getLaporanKeuangan";
 }

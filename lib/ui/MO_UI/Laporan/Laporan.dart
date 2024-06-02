@@ -68,7 +68,7 @@ class LaporanUI extends StatelessWidget {
                     const SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: () {
-                        // Aksi saat tombol ditekan
+                         Navigator.pushNamed(context, '/laporan_keuangan');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: COLOR.tertiaryColor,
@@ -76,7 +76,7 @@ class LaporanUI extends StatelessWidget {
                           borderRadius: BorderRadius.zero,
                         ),
                       ),
-                      child: const Text('Laporan 2',
+                      child: const Text('Laporan Pemasukan & Pengeluaran',
                           style: TextStyle(
                             color: Colors.white,
                           )),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/models/Model_History_Saldo.dart';
+import 'package:untitled/models/Model_Laporan_Keuangan.dart';
 import 'package:untitled/ui/Customer_UI/IndexCustomer.dart';
 import 'package:untitled/ui/FirstScreen.dart';
 import 'package:untitled/ui/LoginScreen.dart';
 import 'package:untitled/ui/MO_UI/Index_MO.dart';
+import 'package:untitled/ui/MO_UI/Laporan/Laporan_Pemasukan_Pengeluaran/Laporan_Keuangan.dart';
 import 'package:untitled/ui/RegisterScreen.dart';
 import 'package:untitled/ui/IntroductionScreen.dart';
 import 'package:untitled/ui/Customer_UI/Forgot_Password/ForgotPassword.dart';
@@ -11,6 +13,7 @@ import 'package:untitled/ui/Customer_UI/Forgot_Password/VerifyOTP.dart';
 import 'package:untitled/ui/Customer_UI/Forgot_Password/ChangePassword.dart';
 import 'package:untitled/ui/Customer_UI/Profile/RequestSaldoUI.dart';
 import 'package:untitled/ui/Customer_UI/Profile/HistorySaldoUI.dart';
+import 'package:untitled/ui/MO_UI/Laporan/Laporan_Pemasukan_Pengeluaran/Laporan_Keuangan.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -47,6 +50,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => HistoryPenarikanSaldoUI(email: email),
         );
+      case '/laporan_keuangan':
+      return MaterialPageRoute(builder: (_) => LaporanKeuanganScreen());
       case '/MO/':
         return MaterialPageRoute(builder: (_) => const Index_MO());
       case '/Home':

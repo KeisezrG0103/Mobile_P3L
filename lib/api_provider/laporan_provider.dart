@@ -3,8 +3,9 @@ import 'package:http/http.dart' show Client;
 import 'package:localstorage/localstorage.dart';
 import 'package:untitled/constant/url.dart';
 import 'package:untitled/models/Model_Laporan_Stok_Bahan_Baku.dart';
+import 'package:untitled/models/Model_Laporan_Keuangan.dart';
 
-class LaporanProvider {
+class LaporanProvider   {
   final Client client = Client();
   final LocalStorage storage = LocalStorage('localstorage_app');
 
@@ -31,5 +32,35 @@ class LaporanProvider {
     } catch (e) {
       return ModelLaporanStokBahanBaku.empty;
     }
+
+    
   }
+
+   Future<LaporanKeuangan> getLaporanKeuangan(String tanggal) async {
+  final token = storage.getItem('token');
+
+  try {
+    final response = await client.get(
+      Uri.parse('${URL.LAPORAN_KEUANGAN}/$tanggal'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      print('Response: ${response.body}');
+      throw Exception('Failed to load data');
+    }
+
+    final Map<String, dynamic> responseData = json.decode(response.body);
+    print('Response: ${responseData}');
+    return LaporanKeuangan.fromJson(responseData);
+  } catch (e) {
+    print('Error: $e');
+    throw Exception('Failed to load data');
+  }
+}
+
+
 }
