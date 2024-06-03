@@ -210,6 +210,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             storage.setItem('token', token);
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 '/MO/', (Route<dynamic> route) => false);
+                          } else if (role == "Owner") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Login Success'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                            storage.setItem('token', token);
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/Laporan', (Route<dynamic> route) => false);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

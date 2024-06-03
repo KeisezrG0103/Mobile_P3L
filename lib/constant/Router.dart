@@ -5,6 +5,7 @@ import 'package:untitled/ui/Customer_UI/IndexCustomer.dart';
 import 'package:untitled/ui/FirstScreen.dart';
 import 'package:untitled/ui/LoginScreen.dart';
 import 'package:untitled/ui/MO_UI/Index_MO.dart';
+import 'package:untitled/ui/MO_UI/Laporan/Laporan.dart';
 import 'package:untitled/ui/MO_UI/Laporan/Laporan_Pemasukan_Pengeluaran/Laporan_Keuangan.dart';
 import 'package:untitled/ui/RegisterScreen.dart';
 import 'package:untitled/ui/IntroductionScreen.dart';
@@ -45,17 +46,19 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => RequestSaldoUI(email: email),
         );
-        case '/history_saldo':
+      case '/history_saldo':
         final String email = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => HistoryPenarikanSaldoUI(email: email),
         );
       case '/laporan_keuangan':
-      return MaterialPageRoute(builder: (_) => LaporanKeuanganScreen());
+        return MaterialPageRoute(builder: (_) => LaporanKeuanganScreen());
       case '/MO/':
         return MaterialPageRoute(builder: (_) => const Index_MO());
       case '/Home':
         return MaterialPageRoute(builder: (_) => const IndexCustomer());
+      case '/Laporan':
+        return MaterialPageRoute(builder: (_) => const LaporanUI());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
