@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_file/open_file.dart'; // Import open_file package
 import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:untitled/bloc/Laporan_bloc/laporan_bloc_bloc.dart';
 import 'package:untitled/constant/color.dart';
@@ -85,15 +86,68 @@ class Index_Laporan_Bahan_Baku extends StatelessWidget {
   Future<void> _downloadPdf(
       BuildContext context, List<ModelBahanBaku> data) async {
     final pdf = pw.Document();
+
     pdf.addPage(
+      // add tanggal cetak hari ini
       pw.Page(
         build: (pw.Context context) {
-          return pw.Table.fromTextArray(
-            context: context,
-            data: <List<String>>[
-              <String>['ID', 'Nama', 'Qty', 'Satuan'],
-              ...data.map(
-                  (e) => [e.id.toString(), e.nama, e.qty.toString(), e.satuan]),
+          return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text(
+                'Tanggal Cetak: ${DateTime.now().toString()}',
+                style: pw.TextStyle(
+                  fontSize: 12,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+              pw.SizedBox(height: 10),
+              pw.Table(
+                border: pw.TableBorder.all(),
+                children: [
+                  pw.TableRow(
+                    decoration: pw.BoxDecoration(
+                      color: PdfColors.grey300,
+                    ),
+                    children: [
+                      pw.Text(
+                        'ID',
+                        style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                      pw.Text(
+                        'Nama',
+                        style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                      pw.Text(
+                        'Qty',
+                        style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                      pw.Text(
+                        'Satuan',
+                        style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ...data.map(
+                    (e) => pw.TableRow(
+                      children: [
+                        pw.Text(e.id.toString()),
+                        pw.Text(e.nama),
+                        pw.Text(e.qty.toString()),
+                        pw.Text(e.satuan),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ],
           );
         },
