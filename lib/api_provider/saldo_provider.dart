@@ -4,12 +4,25 @@ import 'package:http/http.dart' as http;
 import 'package:untitled/constant/url.dart';
 import 'package:untitled/models/Model_Request_Saldo.dart';
 import 'package:untitled/models/Model_History_Saldo.dart';
+import 'package:localstorage/localstorage.dart';
 
 class SaldoProvider extends ChangeNotifier {
 
+   final LocalStorage storage = LocalStorage('localstorage_app');
+
+
     Future<double> getTotalSaldo(String email) async {
+    final token = storage.getItem('token');
+    
     try {
-      final response = await http.get(Uri.parse('${URL.SALDO}/$email'));
+      final response = await http.get(Uri.parse('${URL.SALDO}/$email'
+      ),
+       headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },);
+
+      
       
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -37,13 +50,17 @@ class SaldoProvider extends ChangeNotifier {
 
 
  Future<SaldoResponse?> requestSaldo(SaldoRequest request) async {
+
+    final token = storage.getItem('token');
+    
     final url = '${URL.REQUEST}/${request.email}';
 
     try {
       final response = await http.post(
         Uri.parse(url),
         body: json.encode(request.toJson()),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',
+         'Authorization': 'Bearer $token'},
       );
 
       if (response.statusCode == 200) {
@@ -60,10 +77,15 @@ class SaldoProvider extends ChangeNotifier {
   }
 
   Future<List<HistoryPenarikanSaldo>> getHistoryPenarikanSaldo(String email) async {
+
+    final token = storage.getItem('token');
+    
     final url = '${URL.HISTORY}/${email}';
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url), 
+      headers: {'Content-Type': 'application/json',
+         'Authorization': 'Bearer $token'},);
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         final List<HistoryPenarikanSaldo> history = data
